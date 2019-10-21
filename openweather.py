@@ -41,13 +41,15 @@ def index():
         weather_country = data['sys']['country']
         weather_main = data['weather'][0]['main']
         weather_desc = data['weather'][0]['description']
+        weather_temp = data['main']['temp']
         weather_wind = data['wind']['speed']
         res = {
             'city': weather_city,
             'country': weather_country,
             'main': weather_main,
             'desc': weather_desc,
-            'wind': weather_wind
+            'temperature': weather_temp,
+            'wind speed': weather_wind
         }
         return jsonify(res)
 
@@ -63,13 +65,15 @@ def home():
                 weather_country = i['sys']['country']
                 weather_main = i['weather'][0]['main']
                 weather_desc = i['weather'][0]['description']
+                weather_temp = i['main']['temp']
                 weather_wind = i['wind']['speed']
                 tmp = {
                     'city': weather_city,
                     'country': weather_country,
                     'main': weather_main,
                     'desc': weather_desc,
-                    'wind': weather_wind
+                    'temperature': weather_temp,
+                    'wind speed': weather_wind
                 }
                 res.append(tmp)
 
