@@ -16,7 +16,7 @@ def get_allweathers(cityid):
         res = requests.get(url, params=param)
         return res.json()
     except Exception as e:
-        res = "The Weathers Could Not Be Found"
+        res = "The Weathers Could Not Be Found" + e
         return res
         
 def get_weathers(city):
@@ -30,7 +30,39 @@ def get_weathers(city):
         res = requests.get(url, params=param)
         return res.json()
     except Exception as e:
-        res = "The Weather in"+city+"Could Not Be Found"
+        res = "The Weather in"+city+"Could Not Be Found" + e
+        return res
+
+def get_weather(lat,lon):
+    #returning the weather in a specific city by inputing the name of the city
+    try:
+        param={
+            'lat':lat,
+            'lon':lon,
+            'units': 'metric',
+            'appid':'3d6ae3df59815d39dbf27c8a52460ed0'
+        }
+        url = 'https://api.openweathermap.org/data/2.5/weather'
+        res = requests.get(url, params=param)
+        return res.json()
+    except Exception as e:
+        res = "The Weather in lat="+lat+"& lon="+lon+" Could Not Be Found"+e
+        return res
+
+def get_forecast(lat,lon):
+    #returning the weather in a specific city by inputing the name of the city
+    try:
+        param={
+            'lat':lat,
+            'lon':lon,
+            'units': 'metric',
+            'appid':'3d6ae3df59815d39dbf27c8a52460ed0'
+        }
+        url = 'https://api.openweathermap.org/data/2.5/forecast'
+        res = requests.get(url, params=param)
+        return res.json()
+    except Exception as e:
+        res = "The Weather in lat="+lat+"& lon="+lon+" Could Not Be Found"+e
         return res
 
 @app.route('/', methods=['GET'])
@@ -80,6 +112,19 @@ def home():
             return jsonify(res)
     except Exception as e:
         return e
+
+
+@app.route('/weather', methods=['GET'])
+def geo():
+    if request.method == 'GET' :
+        data = get_weather(request.args.get('lat'),request.args.get('lon'))
+        return jsonify(data)
+
+@app.route('/forecast', methods=['GET'])
+def forecast():
+    if request.method == 'GET' :
+        data = get_forecast(request.args.get('lat'),request.args.get('lon'))
+        return jsonify(data)
 
 
 if __name__ == "__main__":
